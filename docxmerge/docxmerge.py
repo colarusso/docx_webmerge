@@ -9,6 +9,7 @@ def docx_run(docx_uri,json_doc,filename):
     current_time = time.time()
     whitelist = "www.example.com" # Sperate domains by semicolons
     location = "" # leave blank
+    content = "" # leave blank
 
     def is_json(myjson):
       try:
@@ -35,7 +36,10 @@ def docx_run(docx_uri,json_doc,filename):
         # If either of these assumptions is wrong or if you'd like to drop your files elsewhere, go for it.
         os.mkdir("/var/www/tmp/%s"%directory)
         import urllib.request
-        urllib.request.urlretrieve(docx_uri, "/var/www/tmp/%s/_%s.docx"%(directory,filename))
+        try:
+            urllib.request.urlretrieve(docx_uri, "/var/www/tmp/%s/_%s.docx"%(directory,filename))
+        except:
+            content = "Error: Issue downloading file."
 
         import zipfile
         import string
@@ -88,11 +92,15 @@ def docx_run(docx_uri,json_doc,filename):
                     node.getchildren()[0].getchildren()[1].text = replace_hash(kp, node_value)
 
             replace_docx(fname, newfname, etree.tostring(my_etree, encoding='utf8', method='xml'))
-
-        docxmerge("/var/www/tmp/%s/_%s.docx"%(directory,filename), json.loads(json_doc), "/var/www/tmp/%s/%s.docx"%(directory,filename))
-
-        location = "/tmp/%s/%s.docx"%(directory,filename) # Note: this should reference the content's URL
-        content = "Wrote something!"
+            
+        if content == "":
+            try:
+                docxmerge("/var/www/tmp/%s/_%s.docx"%(directory,filename), json.loads(json_doc), "/var/www/tmp/%s/%s.docx"%(directory,filename))
+        
+                location = "/tmp/%s/%s.docx"%(directory,filename) # Note: this should reference the content's URL
+                content = "Wrote something!"
+            except:
+                content = "Error: Issue parsing file."
 
     else:
 
