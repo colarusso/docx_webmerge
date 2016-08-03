@@ -12,3 +12,7 @@ Assuming you have this repo's Python app up and running on a server, all one has
 After that, the service will return a .docx document populated with your JSON data.
 
 Note: if you're a non-profit and would like me to add your website to the whitelist for the example service available at [http://colarusso.pythonanywhere.com/](http://colarusso.pythonanywhere.com/) (the app behind the [live example](http://www.qnamarkup.org/docxmerge/) linked above), let me know. As long as you aren't expecting wicked crazy volume, I'll probably just add you to the list.
+
+## Known Issues
+
+Check out this repo's [Issues tab](https://github.com/colarusso/docx_webmerge/issues) for a list of known issues. 
